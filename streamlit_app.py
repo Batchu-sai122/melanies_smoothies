@@ -90,7 +90,8 @@ for fruit_chosen in ingredients_list:
         st.error(f"Network error while fetching data for {fruit_chosen}: {e}")
         st.info("Using fallback sample data instead.")
         fallback_data = {"fruit": fruit_chosen, "calories": 50, "sugar": 10, "fiber": 2}
-        st.dataframe(fallback_data, use_container_width=True)
+        sf_df = st.dataframe(data=response.json(), width='stretch')
+        #st.dataframe(fallback_data, use_container_width=True)
 
         
 
@@ -113,11 +114,25 @@ for fruit_chosen in ingredients_list:
 
 
     #st.write(my_insert_stmt)
+
+
+    #sf_df = st.dataframe(data=response.json(), width='stretch')
+
+# ...
+    time_to_insert = st.button('Submit Order', key='submit_order_button')
+
+    if time_to_insert:
+        session.sql(my_insert_stmt).collect()
+        st.success('Your Smoothie is ordered!', icon="✅")
+
+
+    """
     time_to_insert = st.button('Submit Order')
 
     if time_to_insert:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered!', icon="✅")
+    """
 
     
 
